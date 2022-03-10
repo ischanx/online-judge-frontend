@@ -1,0 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+echo "[husky] 进行 ESLint 检查"
+echo -e "\033[33m------------------------- Git 钩子---------------------------------\033[0m"
+echo -e "\033[33m[pre-commit] 检查当前提交代码是否通过 ESLint \033[0m"
+echo -e "\033[33m[pre-commit] js代码会执行 eslint --fix 进行自动格式化 \033[0m"
+echo -e "\033[33m[pre-commit] css、html、json等代码会执行 prettier --write 进行自动格式化 \033[0m"
+echo -e "\033[33m[pre-commit] 请检查提交代码里是否存在不符合ESLint规范的代码! \033[0m"
+echo -e "\033[33m------------------------- Git 钩子---------------------------------\033[0m"
+npx lint-staged

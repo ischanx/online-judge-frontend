@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+echo "[husky] 进行 Git 检查"
+echo -e "\033[33m------------------------- Git 钩子---------------------------------\033[0m"
+echo -e "\033[33m[commit-msg] 检查当前提交 Git 信息是否符合规范 => type[scope]: subject\033[0m"
+echo -e "\033[33m[commit-msg] type 是必填项; 表示此次提交的动作类型 build | ci | chore | docs | feat | fix | perf | refactor | revert | style | test \033[0m"
+echo -e "\033[33m[commit-msg] scope 是可选项; 表示此次提交影响范围; 可以写多个scope (一般使用','进行分隔) \033[0m"
+echo -e "\033[33m[commit-msg] subject 是必填项; 表示此次提交的简要说明 \033[0m"
+echo -e "\033[33m[commit-msg] 新增功能提交示例：feat: 登陆页面酷炫动画 \033[0m"
+echo -e "\033[33m------------------------- Git 钩子---------------------------------\033[0m"
+npx commitlint -e $HUSKY_GIT_PARAMS
