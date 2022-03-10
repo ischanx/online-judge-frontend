@@ -4,11 +4,7 @@ module.exports = {
     defineEmits: 'readonly',
     defineProps: 'readonly',
   },
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-recommended',
-    'airbnb-base',
-  ],
+  extends: ['plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'standard', 'prettier'],
   parserOptions: {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 2020,
@@ -17,21 +13,12 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // 禁用 debugger
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // 禁用 console
     'no-bitwise': 'off', // 禁用按位运算符
-    'no-tabs': 'off', // 禁用 tab
-    'array-element-newline': ['error', 'consistent'], // 强制数组元素间出现换行
-    indent: [
-      'error',
-      2,
-      { MemberExpression: 0, SwitchCase: 1, ignoredNodes: ['TemplateLiteral'] },
-    ], // 强制使用一致的缩进
+    indent: ['error', 2, { MemberExpression: 0, SwitchCase: 1, ignoredNodes: ['TemplateLiteral'] }], // 强制使用一致的缩进
     quotes: ['error', 'single'], // 强制使用一致的反勾号、双引号或单引号
-    'comma-dangle': ['error', 'always-multiline'], // 要求或禁止末尾逗号
     'object-curly-spacing': ['error', 'always'], // 强制在大括号中使用一致的空格
     'max-len': ['error', 120], // 强制一行的最大长度
     'no-new': 'off', // 禁止使用 new 以避免产生副作用
-    'linebreak-style': 'off', // 强制使用一致的换行风格
     'import/extensions': 'off', // 确保在导入路径中统一使用文件扩展名
-    'eol-last': 'off', // 要求或禁止文件末尾存在空行
     'no-shadow': 'off', // 禁止变量声明与外层作用域的变量同名
     'no-unused-vars': 'warn', // 禁止出现未使用过的变量
     'import/no-cycle': 'off', // 禁止一个模块导入一个有依赖路径的模块回到自己身上
@@ -49,7 +36,6 @@ module.exports = {
     'no-prototype-builtins': 'off', // 禁止直接调用 Object.prototypes 的内置属性
     'consistent-return': 'off', // 要求 return 语句要么总是指定返回的值，要么不指定
     'one-var-declaration-per-line': 'off', // 要求或禁止在变量声明周围换行
-    'one-var': 'off', // 强制函数中的变量要么一起声明要么分开声明
     'import/named': 'off', // 确保命名导入与远程文件中的命名导出相对应
     'object-curly-newline': 'off', // 强制大括号内换行符的一致性
     'default-case': 'off', // 要求 switch 语句中有 default 分支
@@ -63,27 +49,12 @@ module.exports = {
     'no-await-in-loop': 'off', // 禁止在循环中出现 await
     'import/no-extraneous-dependencies': 'off', // 禁止使用外部包
     'import/no-unresolved': 'off', // 确保导入指向一个可以解析的文件/模块
-    'template-curly-spacing': ['error', 'always'], // 要求或禁止模板字符串中的嵌入表达式周围空格的使用
     '@typescript-eslint/no-var-requires': 'off', // 除import语句外，禁止使用require语句
     '@typescript-eslint/no-empty-function': 'off', // 不允许空函数
-    '@typescript-eslint/no-explicit-any': 'off', // 禁止使用 any 类型
     'guard-for-in': 'off', // 要求 for-in 循环中有一个 if 语句
     'class-methods-use-this': 'off', // 强制类方法使用 this
     'vue/html-indent': ['error', 2], // 在<template>中强制一致缩进
     'vue/html-self-closing': 'off', // 执行自闭合的风格
-    'vue/max-attributes-per-line': [ // 强制每行属性的最大数量
-      'warn',
-      {
-        singleline: {
-          max: 3,
-          allowFirstLine: true,
-        },
-        multiline: {
-          max: 1,
-          allowFirstLine: false,
-        },
-      },
-    ],
     'vue/singleline-html-element-content-newline': 'off', // 要求单行元素的内容前后有一个换行符
   },
 }
