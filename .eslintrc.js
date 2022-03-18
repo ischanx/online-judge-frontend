@@ -23,7 +23,7 @@ module.exports = {
     'no-unused-vars': 'warn', // 禁止出现未使用过的变量
     'import/no-cycle': 'off', // 禁止一个模块导入一个有依赖路径的模块回到自己身上
     'arrow-parens': 'off', // 要求箭头函数的参数使用圆括号
-    semi: ['error', 'never'], // 要求或禁止使用分号代替 ASI
+    semi: ['error', 'always'], // 要求或禁止使用分号代替 ASI
     eqeqeq: 'off', // 要求使用 === 和 !==
     'no-param-reassign': 'off', // 禁止对 function 的参数进行重新赋值
     'import/prefer-default-export': 'off', // 如果模块只输入一个名字，则倾向于默认输出
@@ -57,4 +57,4 @@ module.exports = {
     'vue/html-self-closing': 'off', // 执行自闭合的风格
     'vue/singleline-html-element-content-newline': 'off', // 要求单行元素的内容前后有一个换行符
   },
-}
+};

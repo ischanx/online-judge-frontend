@@ -1,24 +1,24 @@
-import axiosInstance from './axios'
-import { AxiosRequestConfig } from 'axios'
+import axiosInstance from './axios';
+import { AxiosRequestConfig } from 'axios';
 
 /**
  * 转化对象为formdata格式
  * @param data 对象
  */
 function dataToFormData(data?: object | FormData) {
-  const formData = new FormData()
+  const formData = new FormData();
   if (data === null || data === undefined) {
-    return formData
+    return formData;
   }
   if (data instanceof FormData) {
-    return data
+    return data;
   }
   if (typeof data === 'object') {
     Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value)
-    })
+      formData.append(key, value);
+    });
   }
-  return formData
+  return formData;
 }
 
 /**
@@ -28,39 +28,39 @@ class http {
   static get(url: string, data?: object) {
     return axiosInstance.get(url, {
       params: data,
-    })
+    });
   }
 
   static post(url: string, data?: object, config?: AxiosRequestConfig) {
-    return axiosInstance.post(url, data, config)
+    return axiosInstance.post(url, data, config);
   }
 
   static put(url: string, data?: object, config?: AxiosRequestConfig) {
-    return axiosInstance.put(url, data, config)
+    return axiosInstance.put(url, data, config);
   }
 
   static postByFormData(url: string, data?: object | FormData, config?: AxiosRequestConfig) {
-    data = data instanceof FormData ? data : dataToFormData(data)
+    data = data instanceof FormData ? data : dataToFormData(data);
     return axiosInstance.post(url, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
       ...config,
-    })
+    });
   }
 
   static putByFormData(url: string, data?: object | FormData, config?: AxiosRequestConfig) {
-    data = data instanceof FormData ? data : dataToFormData(data)
+    data = data instanceof FormData ? data : dataToFormData(data);
     return axiosInstance.put(url, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
       ...config,
-    })
+    });
   }
 
   static delete(url: string, config?: AxiosRequestConfig) {
-    return axiosInstance.delete(url, config)
+    return axiosInstance.delete(url, config);
   }
 
   static patch(url: string, data?: object, config?: AxiosRequestConfig) {
-    return axiosInstance.patch(url, data, config)
+    return axiosInstance.patch(url, data, config);
   }
 }
-export default http
+export default http;
