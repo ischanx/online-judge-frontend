@@ -14,6 +14,10 @@ export default defineConfig({
     vue(),
     vueJsx({}),
     Components({
+      dirs: ['src'],
+      deep: true,
+      include: [/\.vue$/, /\.jsx$/, /\.tsx$/],
+      exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/],
       dts: true,
       resolvers: [AntDesignVueResolver()],
     }),
