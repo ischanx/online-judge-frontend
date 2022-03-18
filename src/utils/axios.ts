@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { BASE_URL } from '../config/server';
+import { BASE_URL } from '../config/backend';
 
 // 创建axios实例
 const instance = axios.create({

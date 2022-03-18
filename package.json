@@ -6,6 +6,7 @@
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
     "dev": "vite",
+    "dev:prod": "vite --mode production",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },

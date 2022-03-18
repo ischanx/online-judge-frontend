@@ -23,4 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-src/config/server.ts
+/src/config/config.js
