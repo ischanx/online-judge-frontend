@@ -13,7 +13,9 @@
   "dependencies": {
     "ant-design-vue": "^3.0.0-beta.13",
     "axios": "^0.26.1",
-    "vue": "^3.2.31"
+    "pinia": "^2.0.12",
+    "vue": "^3.2.31",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
@@ -31,6 +33,7 @@
     "eslint-plugin-promise": "^5.0.0",
     "eslint-plugin-vue": "8.5.0",
     "husky": "^7.0.4",
+    "less": "^4.1.2",
     "lint-staged": "^12.3.5",
     "prettier": "^2.5.1",
     "typescript": "^4.6.2",

@@ -56,5 +56,6 @@ module.exports = {
     'vue/html-indent': ['error', 2], // 在<template>中强制一致缩进
     'vue/html-self-closing': 'off', // 执行自闭合的风格
     'vue/singleline-html-element-content-newline': 'off', // 要求单行元素的内容前后有一个换行符
+    'vue/multi-word-component-names': 'off',
   },
 };

@@ -4,7 +4,19 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default'];
+    404: typeof import('./src/views/404/index.vue')['default'];
+    AButton: typeof import('ant-design-vue/es')['Button'];
+    AInput: typeof import('ant-design-vue/es')['Input'];
+    AInputPassword: typeof import('ant-design-vue/es')['InputPassword'];
+    ALayout: typeof import('ant-design-vue/es')['Layout'];
+    ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent'];
+    ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter'];
+    ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader'];
+    AMenu: typeof import('ant-design-vue/es')['Menu'];
+    AMenuItem: typeof import('ant-design-vue/es')['MenuItem'];
+    App: typeof import('./src/App.vue')['default'];
+    Home: typeof import('./src/views/Home/index.vue')['default'];
+    Login: typeof import('./src/views/Login/Login.vue')['default'];
   }
 }
 

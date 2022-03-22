@@ -10,6 +10,12 @@ export default defineConfig({
   resolve: {
     alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
   },
+  css: {
+    modules: {
+      scopeBehaviour: 'local',
+      generateScopedName: 'oj__[local]__[hash:6]',
+    },
+  },
   plugins: [
     vue(),
     vueJsx({}),
