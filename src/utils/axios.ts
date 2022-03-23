@@ -1,6 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { BASE_URL } from '../config/backend';
-
+import { BASE_URL } from '@/config/backend';
+import { IResponse } from '@/const/app';
+import message from 'ant-design-vue/es/message';
+import 'ant-design-vue/es/message/style/index.css';
+import router from '@/router';
 // 创建axios实例
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -26,31 +29,28 @@ instance.interceptors.request.use(
 
 // 设置响应拦截器
 instance.interceptors.response.use(
-  (response: AxiosResponse) => {
+  (response: AxiosResponse): Promise<IResponse | object> => {
     // 请求成功
-    const res = response.data;
-    const code = response.status;
-    const realData = res.data || 'request success,but no response data';
-    if (res.code === 1) {
-      return Promise.reject(res.message);
+    const res: IResponse = response.data;
+    const code = res.code;
+    if (![200, 0].includes(code)) {
+      if (res.message) message.error(`[${res.code}] ${res.message}`);
+      return Promise.reject(res || {});
     }
-    return res.code === 200 || code === 200 ? Promise.resolve(realData) : Promise.reject(res.message);
+    return Promise.resolve(res.data || {});
   },
   // 请求失败
   (error) => {
     const { response } = error;
-    if (response) {
-      // 请求已发出，但是不在2xx的范围
-      // errorHandle(response.status, response.data.message)
-      return Promise.reject(response);
+    if (!response) {
+      message.error(error.toString());
+    } else if (response.status === 401) {
+      if (response.data.message) message.error('用户信息过期，请重新登录');
+      router.replace({
+        name: 'Login',
+      });
+      throw response.data;
     }
-    // 处理断网的情况
-    if (!window.navigator.onLine) {
-      // MessageBox('网络已断开')
-    } else {
-      return Promise.reject(error);
-    }
-    return Promise.reject(error);
   }
 );
 

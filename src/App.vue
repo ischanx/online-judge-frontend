@@ -1,8 +1,20 @@
 <script lang="ts" setup>
-import {  ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { MENU_KEYS } from '@/const/app';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const selectedKeys = ref<number[]>([]);
+onMounted(()=>{
+  const index = ['/problem','/contest','/status'].findIndex(item => window.location.pathname.startsWith(item));
+  if(index >= 0){
+    selectedKeys.value.length = 0;
+    selectedKeys.value.push(index);
+  }
+});
+const handleMenuClick = ({ key }:{key: number}) => {
+  const map = ['ProblemList', 'ContestList', 'Status'];
+  router.push({ name: map[key] });
+};
 </script>
 
 <template>
@@ -14,6 +26,7 @@ const selectedKeys = ref<number[]>([]);
           v-model:selectedKeys="selectedKeys"
           theme="dark"
           mode="horizontal"
+          @click="handleMenuClick"
         >
           <a-menu-item :key="MENU_KEYS.PROBLEM">题库</a-menu-item>
           <a-menu-item :key="MENU_KEYS.CONTEST">竞赛</a-menu-item>

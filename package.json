@@ -13,6 +13,7 @@
   "dependencies": {
     "ant-design-vue": "^3.0.0-beta.13",
     "axios": "^0.26.1",
+    "monaco-editor": "^0.33.0",
     "pinia": "^2.0.12",
     "vue": "^3.2.31",
     "vue-router": "4"

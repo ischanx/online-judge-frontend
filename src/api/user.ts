@@ -1,7 +1,13 @@
 import http from '../utils/http';
-export const login = async () => {
-  return http.post('/user/login', {
-    username: 'abc@qq.com',
-    password: '123456',
-  });
+
+interface ILoginReq {
+  username: string;
+  password: string;
+}
+interface ILoginRes {
+  token: string;
+  message: string;
+}
+export const login = async (data: ILoginReq) => {
+  return (await http.post('/user/login', data)) as Promise<ILoginRes>;
 };
