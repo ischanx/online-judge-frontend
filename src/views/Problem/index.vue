@@ -13,6 +13,12 @@ import { getProblemById, getSubmissionById, getSubmissionList, Problem, submit }
 import { CODE_LANGUAGES, PROBLEM_TABS_KEYS } from '@/const/app';
 import SubmitList from '@/components/SubmitList/index.vue';
 import SubmitResult from '@/components/SubmitResult/index.vue';
+import {
+  getContestProblem,
+  getContestSubmissionById,
+  getContestSubmissionList,
+  submitContestProblem,
+} from '@/api/contest';
 
 const router = useRouter();
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -35,7 +41,13 @@ self.MonacoEnvironment = {
   },
 };
 let editor: monaco.editor.IStandaloneCodeEditor;
+const problemId = ref(0);
+const contestId = ref(0);
+const problemNumber = ref(0);
 onMounted(() => {
+  problemId.value = Number(router.currentRoute.value.params.problemId);
+  contestId.value = Number(router.currentRoute.value.params.contestId);
+  problemNumber.value = Number(router.currentRoute.value.params.problemNumber);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   editor = monaco.editor.create(document.getElementById('container'), {
@@ -46,6 +58,9 @@ onMounted(() => {
     lineNumbers: 'on',
   });
   fetchProblem();
+  setTimeout(()=>{
+    fetchSubmitHistory();
+  },1000);
   leftTabsKey.value = PROBLEM_TABS_KEYS.CONTENT;
 });
 
@@ -54,7 +69,15 @@ onUnmounted(() => {
 });
 const problem = reactive({});
 const fetchProblem = async () => {
-  const res = await getProblemById(Number(router.currentRoute.value.params.problemId));
+  let res = null;
+  if(problemNumber.value){
+    res = await getContestProblem({
+      problemNumber: problemNumber.value,
+      contestId: contestId.value
+    }) as any;
+    // todo: 功能耦合
+    problemId.value = res.id;
+  }else res = await getProblemById(problemId.value);
   Object.assign(problem, res);
 };
 
@@ -70,12 +93,20 @@ const submitLoading = ref(false);
 const handleCodeSubmit = async () => {
   submitLoading.value = true;
   const code = editor.getValue();
-  const problemId = (problem as Problem).id;
   const lang = codeLanguage.value;
-  if(code === '' || !problemId) return;
-  const res = await submit({
+  if(code === '' || !problemId.value) return;
+  let res: any = null;
+  if(problemNumber.value){
+    res = await submitContestProblem({
+      code,
+      problemId: problemId.value,
+      lang,
+      problemNumber: problemNumber.value,
+      contestId: contestId.value,
+    });
+  }else res = await submit({
     code,
-    problemId,
+    problemId: problemId.value,
     lang
   });
   if(res.submissionId){
@@ -88,7 +119,13 @@ const handleCodeSubmit = async () => {
 const submitList = reactive([]);
 const submitRes = ref({});
 const fetchSubmitHistory = async () => {
-  const list: any= await getSubmissionList(Number(router.currentRoute.value.params.problemId));
+  let list:any = null;
+  if(problemNumber.value){
+    list = await getContestSubmissionList({
+      contestId: contestId.value,
+      problemId: problemId.value,
+    });
+  }else list= await getSubmissionList(problemId.value);
   // 最晚提交放在前面
   list.sort((a: any,b:any) => b.createTime - a.createTime);
   submitList.splice(0, submitList.length);
@@ -96,11 +133,13 @@ const fetchSubmitHistory = async () => {
   // @ts-ignore
   submitList.push(...list);
 };
-onBeforeMount(()=>{
-  fetchSubmitHistory();
-});
+
 const fetchSubmitResult = async (id: string) => {
-  const res = await getSubmissionById({ id }) as any;
+  let res = null;
+  if(problemNumber.value){
+    res = await getContestSubmissionById({ id });
+  }else res = await getSubmissionById({ id }) as any;
+
   if(res.status === 'success'){
     submitRes.value = reactive(res.result);
     console.log(res.result);
@@ -110,7 +149,7 @@ const fetchSubmitResult = async (id: string) => {
   }else{
     setTimeout(()=>{
       fetchSubmitResult(id);
-    },1000);
+    },2000);
   }
 };
 </script>
