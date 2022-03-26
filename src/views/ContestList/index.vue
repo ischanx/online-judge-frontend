@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount, reactive, toRaw } from 'vue';
+import { computed, onBeforeMount, reactive, toRaw } from 'vue';
 import { getContestList, Contest } from '@/api/contest';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -29,6 +29,11 @@ const columns = [
     dataIndex: 'endTime',
     key: 'endTime',
   },
+  {
+    title: '状态',
+    dataIndex: 'endTime',
+    key: 'status',
+  },
 ];
 const jumpToContestPage = (contestId: number) => {
   router.push({
@@ -40,6 +45,26 @@ const jumpToContestPage = (contestId: number) => {
 };
 const handleTitleClick = (e: PointerEvent, item: Contest) => {
   jumpToContestPage(item.id);
+};
+
+const contestStatus = (beginTime: number, endTime: number) => {
+  const now = Date.now();
+  if (now < beginTime) {
+    return {
+      color: 'blue',
+      text: '等待开始',
+    };
+  } else if (now > beginTime && now < endTime) {
+    return {
+      color: 'green',
+      text: '进行中',
+    };
+  } else if (now > endTime) {
+    return {
+      color: 'red',
+      text: '已结束',
+    };
+  }
 };
 </script>
 
@@ -62,6 +87,13 @@ const handleTitleClick = (e: PointerEvent, item: Contest) => {
           <template v-else-if="column.key === 'endTime'">
             <span>
               {{ new Date(record.endTime).toLocaleString() }}
+            </span>
+          </template>
+          <template v-else-if="column.key === 'status'">
+            <span>
+              <a-tag :color="contestStatus(record.beginTime, record.endTime).color">
+                {{contestStatus(record.beginTime, record.endTime).text }}
+              </a-tag>
             </span>
           </template>
         </template>
