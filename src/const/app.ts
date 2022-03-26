@@ -10,3 +10,13 @@ export interface IResponse {
   message: string;
   data?: object;
 }
+
+export enum PROBLEM_TABS_KEYS {
+  CONTENT,
+  SUBMISSION,
+}
+
+export enum CODE_LANGUAGES {
+  C = 'c',
+  CPP = 'cpp',
+}

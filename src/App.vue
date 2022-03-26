@@ -40,9 +40,9 @@ const handleMenuClick = ({ key }:{key: number}) => {
     <a-layout-content class="global-layout__content">
       <router-view></router-view>
     </a-layout-content>
-    <a-layout-footer class="global-layout__footer">
-      Online Judge ©2022 Created by chanx.tech
-    </a-layout-footer>
+    <!--    <a-layout-footer class="global-layout__footer">-->
+    <!--      Online Judge ©2022 Created by chanx.tech-->
+    <!--    </a-layout-footer>-->
   </a-layout>
 </template>
 
