@@ -9,6 +9,7 @@ onBeforeMount(async () => {
 const list = reactive<Contest[]>([]);
 const fetchContestList = async () => {
   const res = await getContestList();
+  res.sort((a,b) => b.beginTime - a.beginTime);
   list.push(...res);
 };
 

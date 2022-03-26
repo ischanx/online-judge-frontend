@@ -11,7 +11,8 @@ defineProps({
       <a-tag :color="result.pass ? 'green' : 'red'">{{ result.error || result.message }}</a-tag>
     </div>
     <div>
-      <span class="title">通过用例数：</span>
+      <span class="title">通过用例：</span>
+      <span>{{ result.totalCount ?(result.totalCorrect + '/' + result.totalCount)  : '' }}</span>
       <a-progress
         :percent="Number(result.totalCount || 0)?(100 * Number(result.totalCorrect || 0)) / Number(result.totalCount || 0) : 0"
         size="small"
