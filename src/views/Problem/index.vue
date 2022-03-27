@@ -21,6 +21,19 @@ import {
 } from '@/api/contest';
 import Storage from '@/utils/storage';
 
+/**
+ * 左侧题目描述显示区
+ *  Markdown-it做转换
+ */
+import MarkdownIt from 'markdown-it';
+const problemContent = ref('');
+const setProblemContent = (origin: string) => {
+  const md = new MarkdownIt();
+  problemContent.value = md.render(origin);
+};
+
+
+
 const router = useRouter();
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -81,6 +94,7 @@ const fetchProblem = async () => {
     problemId.value = res.id;
   }else res = await getProblemById(problemId.value);
   Object.assign(problem, res);
+  setProblemContent(res.content);
 };
 
 const leftTabsKey = ref(PROBLEM_TABS_KEYS.SUBMISSION);
@@ -193,12 +207,12 @@ const columns = [
   <div class="problem-page">
     <div class="problem-page-left">
       <a-tabs v-model:activeKey="leftTabsKey" centered style="height: 100%">
-        <a-tab-pane :key="PROBLEM_TABS_KEYS.CONTENT" tab="题目描述">
+        <a-tab-pane :key="PROBLEM_TABS_KEYS.CONTENT" tab="题目描述" class="container">
           <div class="title">{{ problem.id + '. ' + problem.title }}</div>
           <a-divider></a-divider>
-          <div class="content">{{ problem.content }}</div>
+          <div class="content" v-html="problemContent"></div>
         </a-tab-pane>
-        <a-tab-pane :key="PROBLEM_TABS_KEYS.SUBMISSION" tab="提交记录">
+        <a-tab-pane :key="PROBLEM_TABS_KEYS.SUBMISSION" tab="提交记录" class="container">
           <SubmitResult v-if="Object.keys(submitRes).length" :result="submitRes"/>
           <SubmitList :list="submitList" :columns="columns"/>
         </a-tab-pane>
@@ -220,7 +234,9 @@ const columns = [
   </div>
 </template>
 
+
 <style scoped lang="less">
+
 .problem-page {
   display: flex;
   flex-direction: row;
@@ -228,11 +244,14 @@ const columns = [
   width: 100%;
   padding-bottom: 2px;
   &-left {
-    padding: 0px 8px;
+
     width: 30%;
     height: 100%;
     overflow: hidden;
     border-right: 1px solid #c4c3c3;
+    .container{
+      padding: 0 16px 20px;
+    }
     .title {
       text-align: center;
       font-size: 16px;
@@ -240,6 +259,15 @@ const columns = [
     }
     .content {
       font-size: 13px;
+      ::v-deep(pre){
+        white-space: pre-wrap;
+        background-color: rgba(0,10,32,0.05);
+        padding: 10px 15px;
+        color: black;
+        line-height: 1.6;
+        font-size: 13px;
+        border-radius: 3px;
+      }
     }
 
   }
