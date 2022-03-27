@@ -11,9 +11,13 @@ onMounted(()=>{
     selectedKeys.value.push(index);
   }
 });
-const handleMenuClick = ({ key }:{key: number}) => {
+const handleMenuClick:any = ({ key }:{key: number}) => {
   const map = ['ProblemList', 'ContestList', 'Status'];
   router.push({ name: map[key] });
+};
+const handleUserLogout = () => {
+  localStorage.removeItem('token');
+  router.push({ name: 'Login' });
 };
 </script>
 
@@ -30,11 +34,13 @@ const handleMenuClick = ({ key }:{key: number}) => {
         >
           <a-menu-item :key="MENU_KEYS.PROBLEM">题库</a-menu-item>
           <a-menu-item :key="MENU_KEYS.CONTEST">竞赛</a-menu-item>
-          <a-menu-item :key="MENU_KEYS.STATUS">统计</a-menu-item>
+          <a-menu-item :key="MENU_KEYS.STATUS">状态</a-menu-item>
         </a-menu>
       </div>
       <div>
         <!--todo：用户组件-->
+        <a-button @click="router.push({name: 'Login'})">Login</a-button>
+        <a-button @click="handleUserLogout">Logout</a-button>
       </div>
     </a-layout-header>
     <a-layout-content class="global-layout__content">
