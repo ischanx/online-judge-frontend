@@ -27,14 +27,13 @@ declare module 'vue' {
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATag: typeof import('ant-design-vue/es')['Tag']
-    Coding: typeof import('./src/components/Coding/index.vue')['default'];
     Contest: typeof import('./src/views/Contest/index.vue')['default']
     ContestList: typeof import('./src/views/ContestList/index.vue')['default']
-    ContestProblem: typeof import('./src/views/ContestProblem/index.vue')['default'];
     Home: typeof import('./src/views/Home/index.vue')['default']
     Login: typeof import('./src/views/Login/Login.vue')['default']
     Problem: typeof import('./src/views/Problem/index.vue')['default']
     ProblemList: typeof import('./src/views/ProblemList/index.vue')['default']
+    Status: typeof import('./src/views/Status/index.vue')['default']
     SubmitList: typeof import('./src/components/SubmitList/index.vue')['default']
     SubmitResult: typeof import('./src/components/SubmitResult/index.vue')['default']
   }

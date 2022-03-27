@@ -12,6 +12,7 @@ const routes = [
   },
   { path: '/contest/:contestId(\\d+)', name: 'Contest', component: () => import('@/views/Contest/index.vue') },
   { path: '/contest/', name: 'ContestList', component: () => import('@/views/ContestList/index.vue') },
+  { path: '/status/', name: 'Status', component: () => import('@/views/Status/index.vue') },
   { path: '/:pathMatch(.*)*', component: () => import('@/views/404/index.vue') },
 ];
 
