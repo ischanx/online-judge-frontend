@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, reactive, toRaw } from 'vue';
+import { onBeforeMount, reactive, toRaw } from 'vue';
+import { parseRemainTime } from '@/utils/parser';
 import { getContestList, Contest } from '@/api/contest';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -48,25 +49,7 @@ const handleTitleClick = (e: PointerEvent, item: Contest) => {
   jumpToContestPage(item.id);
 };
 
-const contestStatus = (beginTime: number, endTime: number) => {
-  const now = Date.now();
-  if (now < beginTime) {
-    return {
-      color: 'blue',
-      text: '等待开始',
-    };
-  } else if (now > beginTime && now < endTime) {
-    return {
-      color: 'green',
-      text: '进行中',
-    };
-  } else if (now > endTime) {
-    return {
-      color: 'red',
-      text: '已结束',
-    };
-  }
-};
+
 </script>
 
 <template>
@@ -92,8 +75,8 @@ const contestStatus = (beginTime: number, endTime: number) => {
           </template>
           <template v-else-if="column.key === 'status'">
             <span>
-              <a-tag :color="contestStatus(record.beginTime, record.endTime).color">
-                {{contestStatus(record.beginTime, record.endTime).text }}
+              <a-tag :color="parseRemainTime(record.beginTime, record.endTime).color">
+                {{parseRemainTime(record.beginTime, record.endTime).text }}
               </a-tag>
             </span>
           </template>
