@@ -2,14 +2,14 @@
 import { useRouter } from 'vue-router';
 
 import * as monaco from 'monaco-editor';
-import { onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
-import { getProblemById, getSubmissionById, getSubmissionList, Problem, submit } from '@/api/problem';
+import { getProblemById, getSubmissionById, getSubmissionList, submit } from '@/api/problem';
 import { CODE_LANGUAGES, PROBLEM_TABS_KEYS } from '@/const/app';
 import SubmitList from '@/components/SubmitList/index.vue';
 import SubmitResult from '@/components/SubmitResult/index.vue';
@@ -19,6 +19,7 @@ import {
   getContestSubmissionList,
   submitContestProblem,
 } from '@/api/contest';
+import Storage from '@/utils/storage';
 
 const router = useRouter();
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -52,7 +53,7 @@ onMounted(() => {
   // @ts-ignore
   editor = monaco.editor.create(document.getElementById('container'), {
     // eslint-disable-next-line max-len
-    value: '// code here',
+    value: Storage.getLocalItem(`code_${contestId.value}_${problemId.value}`) ||'// code here',
     language: 'cpp',
     theme: 'vs-dark',
     lineNumbers: 'on',
@@ -65,6 +66,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  Storage.setLocalItem(`code_${contestId.value}_${problemId.value}`, editor.getValue());
   editor.dispose();
 });
 const problem = reactive({});
@@ -135,7 +137,7 @@ const fetchSubmitHistory = async () => {
 };
 
 const fetchSubmitResult = async (id: string) => {
-  let res = null;
+  let res;
   if(problemNumber.value){
     res = await getContestSubmissionById({ id });
   }else res = await getSubmissionById({ id }) as any;
@@ -161,7 +163,7 @@ const fetchSubmitResult = async (id: string) => {
         <a-tab-pane :key="PROBLEM_TABS_KEYS.CONTENT" tab="题目描述">
           <div class="title">{{ problem.id + '. ' + problem.title }}</div>
           <a-divider></a-divider>
-          <div class="content" @click="setValue">{{ problem.content }}</div>
+          <div class="content">{{ problem.content }}</div>
         </a-tab-pane>
         <a-tab-pane :key="PROBLEM_TABS_KEYS.SUBMISSION" tab="提交记录">
           <SubmitResult v-if="Object.keys(submitRes).length" :result="submitRes"/>
