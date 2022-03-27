@@ -45,7 +45,8 @@ instance.interceptors.response.use(
     if (!response) {
       message.error(error.toString());
     } else if (response.status === 401) {
-      if (response.data.message) message.error('用户信息过期，请重新登录');
+      if (response.data.message) message.error('认证过期，请重新登录');
+      localStorage.removeItem('token');
       router.replace({
         name: 'Login',
       });
