@@ -48,3 +48,7 @@ export const getSubmissionById = async (data: IGetSubmissionByIdReq) => {
 export const getSubmissionList = async (problemId: number) => {
   return await http.post('/submission/listUserSubmission', { problemId });
 };
+
+export const getGlobalSubmissionList = async () => {
+  return await http.post('/submission/list');
+};

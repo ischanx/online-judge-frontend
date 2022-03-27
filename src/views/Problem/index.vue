@@ -154,6 +154,39 @@ const fetchSubmitResult = async (id: string) => {
     },2000);
   }
 };
+
+const columns = [
+  {
+    title: '提交结果',
+    dataIndex: 'problemId',
+    key: 'message',
+    align: 'center',
+  },
+  {
+    title: '耗时',
+    dataIndex: 'problemId',
+    key: 'time',
+    align: 'center',
+  },
+  {
+    title: '内存',
+    dataIndex: 'problemId',
+    key: 'memory',
+    align: 'center',
+  },
+  {
+    title: '语言',
+    dataIndex: 'lang',
+    key: 'lang',
+    align: 'center',
+  },
+  {
+    title: '提交时间',
+    dataIndex: 'createTime',
+    key: 'createTime',
+    align: 'center',
+  },
+];
 </script>
 
 <template>
@@ -167,7 +200,7 @@ const fetchSubmitResult = async (id: string) => {
         </a-tab-pane>
         <a-tab-pane :key="PROBLEM_TABS_KEYS.SUBMISSION" tab="提交记录">
           <SubmitResult v-if="Object.keys(submitRes).length" :result="submitRes"/>
-          <SubmitList :list="submitList" />
+          <SubmitList :list="submitList" :columns="columns"/>
         </a-tab-pane>
       </a-tabs>
     </div>

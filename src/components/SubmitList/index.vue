@@ -1,56 +1,51 @@
 <script setup lang="ts">
 
+import router from '@/router';
+
 const props = defineProps({
-  list: Array
+  list: Array,
+  columns: Array,
 });
 
-const columns = [
-  {
-    title: '提交结果',
-    dataIndex: 'problemId',
-    key: 'message',
-    align: 'center',
-  },
-  {
-    title: '耗时',
-    dataIndex: 'problemId',
-    key: 'time',
-    align: 'center',
-  },
-  {
-    title: '内存',
-    dataIndex: 'problemId',
-    key: 'memory',
-    align: 'center',
-  },
-  {
-    title: '语言',
-    dataIndex: 'lang',
-    key: 'lang',
-    align: 'center',
-  },
-  {
-    title: '提交时间',
-    dataIndex: 'createTime',
-    key: 'createTime',
-    align: 'center',
-  },
-];
 
+const handleSubmissionClick = (submissionId: string) => {
+  // todo 访问提交详情页面
+  console.log(submissionId);
+};
+
+const handleUserClick = (uid: string) => {
+  // todo 跳转到个人详情页面
+  console.log(uid);
+};
+
+const handleProblemClick = (problemId: number) => {
+  router.push({ name:'Problem', params:{
+    problemId
+  } });
+};
 </script>
 
 <template>
   <div>
     <a-table :columns="columns" :data-source="list" class="submit-list">
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'message'">
-          <span v-if="record.result.error" class="result-error">
+      <template #bodyCell="{ text, record, column }">
+        <template v-if="column.key === 'userId'">
+          <a @click="handleUserClick(record.uid)">
+            {{ text }}
+          </a>
+        </template>
+        <template v-else-if="column.key === 'message'"  >
+          <a v-if="record.result.error" class="result-error" @click="handleSubmissionClick(record._id)">
             {{ record.result.error }}
-          </span>
-          <span v-else class="result-right">
+          </a>
+          <a v-else class="result-right" @click="handleSubmissionClick(record._id)">
             {{ record.result.message }}
-          </span>
-
+          </a>
+        </template>
+        <template v-else-if="column.key === 'problemId'">
+          <a @click="handleProblemClick(record.problemId)">
+            {{ text }}
+          </a>
         </template>
         <template v-else-if="column.key === 'time'">
           <span>
