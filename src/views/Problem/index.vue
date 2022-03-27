@@ -3,7 +3,8 @@ import { useRouter } from 'vue-router';
 
 import * as monaco from 'monaco-editor';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
-
+import { Splitpanes, Pane } from 'splitpanes';
+import 'splitpanes/dist/splitpanes.css';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
@@ -70,6 +71,7 @@ onMounted(() => {
     language: 'cpp',
     theme: 'vs-dark',
     lineNumbers: 'on',
+    automaticLayout: true, // auto resize
   });
   fetchProblem();
   setTimeout(()=>{
@@ -205,32 +207,38 @@ const columns = [
 
 <template>
   <div class="problem-page">
-    <div class="problem-page-left">
-      <a-tabs v-model:activeKey="leftTabsKey" centered style="height: 100%">
-        <a-tab-pane :key="PROBLEM_TABS_KEYS.CONTENT" tab="题目描述" class="container">
-          <div class="title">{{ problem.id + '. ' + problem.title }}</div>
-          <a-divider></a-divider>
-          <div class="content" v-html="problemContent"></div>
-        </a-tab-pane>
-        <a-tab-pane :key="PROBLEM_TABS_KEYS.SUBMISSION" tab="提交记录" class="container">
-          <SubmitResult v-if="Object.keys(submitRes).length" :result="submitRes"/>
-          <SubmitList :list="submitList" :columns="columns"/>
-        </a-tab-pane>
-      </a-tabs>
-    </div>
-    <div class="problem-page-right">
-      <div class="tools-top">
-        <a-select v-model:value="codeLanguage" size="small" style="width: 120px" @change="handleLanguageChange">
-          <!--          <a-select-option :value="CODE_LANGUAGES.C">C</a-select-option>-->
-          <a-select-option :value="CODE_LANGUAGES.CPP">C++</a-select-option>
-        </a-select>
-      </div>
+    <Splitpanes class="default-theme">
+      <Pane :size="30">
+        <div class="problem-page-left">
+          <a-tabs v-model:activeKey="leftTabsKey" centered style="height: 100%">
+            <a-tab-pane :key="PROBLEM_TABS_KEYS.CONTENT" tab="题目描述" class="container">
+              <div class="title">{{ problem.id + '. ' + problem.title }}</div>
+              <a-divider></a-divider>
+              <div class="content" v-html="problemContent"></div>
+            </a-tab-pane>
+            <a-tab-pane :key="PROBLEM_TABS_KEYS.SUBMISSION" tab="提交记录" class="container">
+              <SubmitResult v-if="Object.keys(submitRes).length" :result="submitRes"/>
+              <SubmitList :list="submitList" :columns="columns"/>
+            </a-tab-pane>
+          </a-tabs>
+        </div>
+      </Pane>
+      <Pane :size="70" style="height: 100%;min-width: 30%;">
+        <div class="problem-page-right">
+          <div class="tools-top">
+            <a-select v-model:value="codeLanguage" size="small" style="width: 120px" @change="handleLanguageChange">
+              <!--          <a-select-option :value="CODE_LANGUAGES.C">C</a-select-option>-->
+              <a-select-option :value="CODE_LANGUAGES.CPP">C++</a-select-option>
+            </a-select>
+          </div>
 
-      <div id="container" />
-      <div class="tools-bottom">
-        <a-button type="primary" :loading="submitLoading" @click="handleCodeSubmit">提交代码</a-button>
-      </div>
-    </div>
+          <div id="container" />
+          <div class="tools-bottom">
+            <a-button type="primary" :loading="submitLoading" @click="handleCodeSubmit">提交代码</a-button>
+          </div>
+        </div>
+      </Pane>
+    </Splitpanes>
   </div>
 </template>
 
@@ -238,14 +246,14 @@ const columns = [
 <style scoped lang="less">
 
 .problem-page {
-  display: flex;
-  flex-direction: row;
+  //display: flex;
+  //flex-direction: row;
   height: 100%;
   width: 100%;
   padding-bottom: 2px;
   &-left {
 
-    width: 30%;
+    //width: 30%;
     height: 100%;
     overflow: hidden;
     border-right: 1px solid #c4c3c3;
@@ -275,9 +283,11 @@ const columns = [
   &-right {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 100%;
+    height: 100%;
     #container {
       flex: 1;
+      width: 100%;
     }
     .tools-top {
       display: flex;
