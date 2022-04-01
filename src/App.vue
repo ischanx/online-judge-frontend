@@ -11,6 +11,9 @@ onMounted(()=>{
     selectedKeys.value.push(index);
   }
 });
+const handleHomeClick = () => {
+  router.push({ path: '/' });
+};
 const handleMenuClick:any = ({ key }:{key: number}) => {
   const map = ['ProblemList', 'ContestList', 'Status'];
   router.push({ name: map[key] });
@@ -25,7 +28,7 @@ const handleUserLogout = () => {
   <a-layout class="global-layout">
     <a-layout-header class="global-layout__header">
       <div>
-        <span class="logo" >Online Judge</span>
+        <span class="logo" @click="handleHomeClick"><img src="/logo2.png" /> Online Judge</span>
         <a-menu
           v-model:selectedKeys="selectedKeys"
           theme="dark"
@@ -68,11 +71,21 @@ const handleUserLogout = () => {
     user-select: none;
     .logo {
       float: left;
-      padding-right: 16px;
       color: white;
       font-size: 18px;
       font-weight: 700;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      margin-right: 24px;
+      img{
+        background-color: #eee;
+        width: 40px;
+        height: 40px;
+        margin-right: 16px;
+      }
     }
   }
 
