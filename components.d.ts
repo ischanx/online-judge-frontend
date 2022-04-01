@@ -14,6 +14,7 @@ declare module 'vue' {
     AInputPassword: typeof import('ant-design-vue/es')['InputPassword'];
     ALayout: typeof import('ant-design-vue/es')['Layout'];
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent'];
+    ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter'];
     ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader'];
     AMenu: typeof import('ant-design-vue/es')['Menu'];
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem'];
@@ -26,17 +27,21 @@ declare module 'vue' {
     ATabPane: typeof import('ant-design-vue/es')['TabPane'];
     ATabs: typeof import('ant-design-vue/es')['Tabs'];
     ATag: typeof import('ant-design-vue/es')['Tag'];
+    BaseLayout: typeof import('./src/views/Layout/BaseLayout.vue')['default'];
     Contest: typeof import('./src/views/Contest/index.vue')['default'];
     ContestList: typeof import('./src/views/ContestList/index.vue')['default'];
     ForgetPassword: typeof import('./src/views/ForgetPassword/index.vue')['default'];
     Home: typeof import('./src/views/Home/index.vue')['default'];
     Login: typeof import('./src/views/Login/Login.vue')['default'];
+    PageFooter: typeof import('./src/components/PageFooter/index.vue')['default'];
+    PageHeader: typeof import('./src/components/PageHeader/index.vue')['default'];
     Problem: typeof import('./src/views/Problem/index.vue')['default'];
     ProblemList: typeof import('./src/views/ProblemList/index.vue')['default'];
     Register: typeof import('./src/views/Register/index.vue')['default'];
     Status: typeof import('./src/views/Status/index.vue')['default'];
     SubmitList: typeof import('./src/components/SubmitList/index.vue')['default'];
     SubmitResult: typeof import('./src/components/SubmitResult/index.vue')['default'];
+    WithFooter: typeof import('./src/views/Layout/BaseLayout.vue')['default'];
   }
 }
 

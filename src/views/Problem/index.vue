@@ -250,7 +250,7 @@ const columns = [
   //flex-direction: row;
   height: 100%;
   width: 100%;
-  padding-bottom: 2px;
+
   &-left {
 
     //width: 30%;
