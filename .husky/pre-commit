@@ -7,4 +7,4 @@ echo -e "\033[33m[pre-commit] js代码会执行 eslint --fix 进行自动格式�
 echo -e "\033[33m[pre-commit] css、html、json等代码会执行 prettier --write 进行自动格式化 \033[0m"
 echo -e "\033[33m[pre-commit] 请检查提交代码里是否存在不符合ESLint规范的代码! \033[0m"
 echo -e "\033[33m------------------------- Git 钩子---------------------------------\033[0m"
-npx lint-staged
+npx lint-staged --no-stash
