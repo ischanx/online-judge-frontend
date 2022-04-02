@@ -12,8 +12,26 @@ const routes = [
       },
     ],
   },
-  { path: '/login', name: 'Login', component: () => import('@/views/Login/Login.vue') },
-  { path: '/problem/:problemId(\\d+)', name: 'Problem', component: () => import('@/views/Problem/index.vue') },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login/Login.vue'),
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/Register/index.vue'),
+  },
+  {
+    path: '/forgetpassword',
+    name: 'ForgetPassword',
+    component: () => import('@/views/ForgetPassword/index.vue'),
+  },
+  {
+    path: '/problem/:problemId(\\d+)',
+    name: 'Problem',
+    component: () => import('@/views/Problem/index.vue'),
+  },
   {
     path: '/contest/:contestId(\\d+)/:problemNumber(\\d+)',
     name: 'ContestProblem',

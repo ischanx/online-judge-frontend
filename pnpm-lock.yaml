@@ -27,6 +27,7 @@ specifiers:
   micromatch: ^4.0.5
   monaco-editor: ^0.33.0
   pinia: ^2.0.12
+  pinia-plugin-persistedstate: ^1.5.1
   prettier: ^2.5.1
   splitpanes: ^3.1.1
   typescript: ^4.6.2
@@ -44,6 +45,7 @@ dependencies:
   markdown-it: 12.3.2
   monaco-editor: 0.33.0
   pinia: 2.0.12_typescript@4.6.2+vue@3.2.31
+  pinia-plugin-persistedstate: 1.5.1_pinia@2.0.12
   splitpanes: 3.1.1
   vue: 3.2.31
   vue-router: 4.0.14_vue@3.2.31
@@ -3458,18 +3460,26 @@ packages:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
 
   /picomatch/2.3.1:
-    resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
-    engines: {node: '>=8.6'}
+    resolution: { integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA== }
+    engines: { node: '>=8.6' }
     dev: true
 
   /pify/4.0.1:
-    resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
-    engines: {node: '>=6'}
+    resolution: { integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g== }
+    engines: { node: '>=6' }
     dev: true
     optional: true
 
+  /pinia-plugin-persistedstate/1.5.1_pinia@2.0.12:
+    resolution: { integrity: sha512-X0jKWvA3kbpYe8RuIyLaZDEAFvsv3+QmBkMzInBHl0O57+eVJjswXHnIWeFAeFjktrE0cJbGHw2sBMgkcleySQ== }
+    peerDependencies:
+      pinia: ^2.0.0
+    dependencies:
+      pinia: 2.0.12_typescript@4.6.2+vue@3.2.31
+    dev: false
+
   /pinia/2.0.12_typescript@4.6.2+vue@3.2.31:
-    resolution: {integrity: sha512-tUeuYGFrLU5irmGyRAIxp35q1OTcZ8sKpGT4XkPeVcG35W4R6cfXDbCGexzmVqH5lTQJJTXXbNGutIu9yS5yew==}
+    resolution: { integrity: sha512-tUeuYGFrLU5irmGyRAIxp35q1OTcZ8sKpGT4XkPeVcG35W4R6cfXDbCGexzmVqH5lTQJJTXXbNGutIu9yS5yew== }
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
