@@ -26,7 +26,7 @@ const columns = [
     dataIndex: 'endTime',
   },
   {
-    title: '结束时间',
+    title: '持续时间',
     key: 'totalTime',
     dataIndex: 'endTime',
   },
