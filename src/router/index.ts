@@ -71,6 +71,42 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/admin/',
+    component: () => import('@/views/Layout/AdminLayout.vue'),
+    children: [
+      {
+        path: 'user',
+        name: 'AdminUser',
+        component: () => import('@/views/Admin/User/index.vue'),
+      },
+      {
+        path: 'problem-list',
+        name: 'AdminProblem',
+        component: () => import('@/views/Admin/Problem/index.vue'),
+      },
+      {
+        path: 'problem-detail/:action(show|add|edit)/:problemId(\\d+)?',
+        name: 'AdminProblemDetail',
+        component: () => import('@/views/Admin/Problem/Detail/index.vue'),
+      },
+      {
+        path: 'contest',
+        name: 'AdminContest',
+        component: () => import('@/views/Admin/Contest/index.vue'),
+      },
+      {
+        path: 'contest-detail/:action(show|add|edit)/:contestId(\\d+)?',
+        name: 'AdminContestDetail',
+        component: () => import('@/views/Admin/Contest/Detail/index.vue'),
+      },
+      {
+        path: 'statistics',
+        name: 'AdminStatistics',
+        component: () => import('@/views/Admin/Statistics/index.vue'),
+      },
+    ],
+  },
   { path: '/:pathMatch(.*)*', component: () => import('@/views/404/index.vue') },
 ];
 

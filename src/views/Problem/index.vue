@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router';
 
 import * as monaco from 'monaco-editor';
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
 import { Splitpanes, Pane } from 'splitpanes';
 import 'splitpanes/dist/splitpanes.css';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
@@ -15,6 +15,7 @@ import { CODE_LANGUAGES, PROBLEM_TABS_KEYS } from '@/const/app';
 import SubmitList from '@/components/SubmitList/index.vue';
 import SubmitResult from '@/components/SubmitResult/index.vue';
 import {
+  getContestById,
   getContestProblem,
   getContestSubmissionById,
   getContestSubmissionList,
@@ -32,8 +33,6 @@ const setProblemContent = (origin: string) => {
   const md = new MarkdownIt();
   problemContent.value = md.render(origin);
 };
-
-
 
 const router = useRouter();
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -59,6 +58,18 @@ let editor: monaco.editor.IStandaloneCodeEditor;
 const problemId = ref(0);
 const contestId = ref(0);
 const problemNumber = ref(0);
+const contest = reactive<any>({});
+const fetchContest = async () => {
+  const res = await getContestById(contestId.value);
+  console.log(res);
+  Object.assign(contest, res);
+};
+
+const canSubmit = computed(() => {
+  const now = Date.now();
+  if (contestId.value) return now > contest.beginTime && now < contest.endTime;
+  else return true;
+});
 onMounted(() => {
   problemId.value = Number(router.currentRoute.value.params.problemId);
   contestId.value = Number(router.currentRoute.value.params.contestId);
@@ -67,16 +78,20 @@ onMounted(() => {
   // @ts-ignore
   editor = monaco.editor.create(document.getElementById('container'), {
     // eslint-disable-next-line max-len
-    value: Storage.getLocalItem(`code_${contestId.value}_${problemId.value}`) ||'// code here',
+    value: Storage.getLocalItem(`code_${contestId.value}_${problemId.value}`) || '// code here',
     language: 'cpp',
     theme: 'vs-dark',
     lineNumbers: 'on',
     automaticLayout: true, // auto resize
   });
   fetchProblem();
-  setTimeout(()=>{
+  if (contestId.value) {
+    fetchContest();
+  }
+
+  setTimeout(() => {
     fetchSubmitHistory();
-  },1000);
+  }, 1000);
   leftTabsKey.value = PROBLEM_TABS_KEYS.CONTENT;
 });
 
@@ -87,16 +102,20 @@ onUnmounted(() => {
 const problem = reactive({});
 const fetchProblem = async () => {
   let res = null;
-  if(problemNumber.value){
-    res = await getContestProblem({
-      problemNumber: problemNumber.value,
-      contestId: contestId.value
-    }) as any;
-    // todo: 功能耦合
-    problemId.value = res.id;
-  }else res = await getProblemById(problemId.value);
-  Object.assign(problem, res);
-  setProblemContent(res.content);
+  try {
+    if (problemNumber.value) {
+      res = (await getContestProblem({
+        problemNumber: problemNumber.value,
+        contestId: contestId.value,
+      })) as any;
+      // todo: 功能耦合
+      problemId.value = res.id;
+    } else res = await getProblemById(problemId.value);
+    Object.assign(problem, res);
+    setProblemContent(res.content);
+  } catch (e) {
+    router.back();
+  }
 };
 
 const leftTabsKey = ref(PROBLEM_TABS_KEYS.SUBMISSION);
@@ -106,15 +125,14 @@ const handleLanguageChange = (language: string) => {
   editor.setModel(model);
 };
 
-
 const submitLoading = ref(false);
 const handleCodeSubmit = async () => {
   submitLoading.value = true;
   const code = editor.getValue();
   const lang = codeLanguage.value;
-  if(code === '' || !problemId.value) return;
+  if (code === '' || !problemId.value) return;
   let res: any = null;
-  if(problemNumber.value){
+  if (problemNumber.value) {
     res = await submitContestProblem({
       code,
       problemId: problemId.value,
@@ -122,30 +140,31 @@ const handleCodeSubmit = async () => {
       problemNumber: problemNumber.value,
       contestId: contestId.value,
     });
-  }else res = await submit({
-    code,
-    problemId: problemId.value,
-    lang
-  });
-  if(res.submissionId){
-    setTimeout(()=>{
+  } else
+    res = await submit({
+      code,
+      problemId: problemId.value,
+      lang,
+    });
+  if (res.submissionId) {
+    setTimeout(() => {
       fetchSubmitResult(res.submissionId);
-    },0);
+    }, 0);
   }
 };
 
 const submitList = reactive([]);
 const submitRes = ref({});
 const fetchSubmitHistory = async () => {
-  let list:any = null;
-  if(problemNumber.value){
+  let list: any = null;
+  if (problemNumber.value) {
     list = await getContestSubmissionList({
       contestId: contestId.value,
-      problemId: problemId.value,
+      problemNumber: problemNumber.value,
     });
-  }else list= await getSubmissionList(problemId.value);
+  } else list = await getSubmissionList(problemId.value);
   // 最晚提交放在前面
-  list.sort((a: any,b:any) => b.createTime - a.createTime);
+  list.sort((a: any, b: any) => b.createTime - a.createTime);
   submitList.splice(0, submitList.length);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -154,20 +173,20 @@ const fetchSubmitHistory = async () => {
 
 const fetchSubmitResult = async (id: string) => {
   let res;
-  if(problemNumber.value){
+  if (problemNumber.value) {
     res = await getContestSubmissionById({ id });
-  }else res = await getSubmissionById({ id }) as any;
+  } else res = (await getSubmissionById({ id })) as any;
 
-  if(res.status === 'success'){
+  if (res.status === 'success') {
     submitRes.value = reactive(res.result);
     console.log(res.result);
     leftTabsKey.value = PROBLEM_TABS_KEYS.SUBMISSION;
     submitLoading.value = false;
     await fetchSubmitHistory();
-  }else{
-    setTimeout(()=>{
+  } else {
+    setTimeout(() => {
       fetchSubmitResult(id);
-    },2000);
+    }, 2000);
   }
 };
 
@@ -217,13 +236,13 @@ const columns = [
               <div class="content" v-html="problemContent"></div>
             </a-tab-pane>
             <a-tab-pane :key="PROBLEM_TABS_KEYS.SUBMISSION" tab="提交记录" class="container">
-              <SubmitResult v-if="Object.keys(submitRes).length" :result="submitRes"/>
-              <SubmitList :list="submitList" :columns="columns"/>
+              <SubmitResult v-if="Object.keys(submitRes).length" :result="submitRes" />
+              <SubmitList :list="submitList" :columns="columns" />
             </a-tab-pane>
           </a-tabs>
         </div>
       </Pane>
-      <Pane :size="70" style="height: 100%;min-width: 30%;">
+      <Pane :size="70" style="height: 100%; min-width: 30%">
         <div class="problem-page-right">
           <div class="tools-top">
             <a-select v-model:value="codeLanguage" size="small" style="width: 120px" @change="handleLanguageChange">
@@ -234,7 +253,10 @@ const columns = [
 
           <div id="container" />
           <div class="tools-bottom">
-            <a-button type="primary" :loading="submitLoading" @click="handleCodeSubmit">提交代码</a-button>
+            <span v-if="!canSubmit" style="font-size: 12px; margin: 0 8px; color: #ff6161">不在比赛时间，不能提交</span>
+            <a-button type="primary" :loading="submitLoading" :disabled="!canSubmit" @click="handleCodeSubmit">
+              提交代码
+            </a-button>
           </div>
         </div>
       </Pane>
@@ -242,9 +264,7 @@ const columns = [
   </div>
 </template>
 
-
 <style scoped lang="less">
-
 .problem-page {
   //display: flex;
   //flex-direction: row;
@@ -252,12 +272,11 @@ const columns = [
   width: 100%;
 
   &-left {
-
     //width: 30%;
     height: 100%;
     overflow: hidden;
     border-right: 1px solid #c4c3c3;
-    .container{
+    .container {
       padding: 0 16px 20px;
     }
     .title {
@@ -267,9 +286,9 @@ const columns = [
     }
     .content {
       font-size: 13px;
-      ::v-deep(pre){
+      ::v-deep(pre) {
         white-space: pre-wrap;
-        background-color: rgba(0,10,32,0.05);
+        background-color: rgba(0, 10, 32, 0.05);
         padding: 10px 15px;
         color: black;
         line-height: 1.6;
@@ -277,7 +296,6 @@ const columns = [
         border-radius: 3px;
       }
     }
-
   }
 
   &-right {
@@ -309,7 +327,7 @@ const columns = [
 <style>
 .problem-page-left .ant-tabs-content-holder,
 .problem-page-left .ant-tabs-content,
-.problem-page-left .ant-tabs-tabpane{
+.problem-page-left .ant-tabs-tabpane {
   height: 100%;
   overflow: auto;
 }

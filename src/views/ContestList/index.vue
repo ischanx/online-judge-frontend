@@ -16,7 +16,7 @@ const fetchContestList = async () => {
 
 const columns = [
   {
-    title: '竞赛',
+    title: '比赛',
     dataIndex: 'id',
     key: 'id',
   },

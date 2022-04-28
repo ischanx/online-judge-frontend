@@ -2,7 +2,7 @@
 
 import router from '@/router';
 
-const props = defineProps({
+defineProps({
   list: Array,
   columns: Array,
 });
@@ -31,7 +31,7 @@ const handleProblemClick = (problemId: number) => {
       <template #bodyCell="{ text, record, column }">
         <template v-if="column.key === 'userId'">
           <a @click="handleUserClick(record.uid)">
-            {{ text }}
+            {{ record.username || '不知名的用户' }}
           </a>
         </template>
         <template v-else-if="column.key === 'message'"  >

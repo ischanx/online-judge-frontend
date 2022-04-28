@@ -11,11 +11,17 @@ const fetchProblemList = async () => {
   const res = await getProblemList();
   list.push(...res.list);
 };
+const difficultyText = ['简单', '中等', '困难'];
 const columns = [
   {
     title: '题目',
     dataIndex: 'id',
     key: 'id',
+  },
+  {
+    title: '难度',
+    dataIndex: 'difficulty',
+    key: 'difficulty',
   },
   {
     title: '创建时间',
@@ -60,6 +66,11 @@ const handleTitleClick = (e: PointerEvent,item: Problem) => {
           <template v-else-if="column.key === 'updateTime'">
             <span>
               {{ new Date(record.updateTime).toLocaleString() }}
+            </span>
+          </template>
+          <template v-else-if="column.key === 'difficulty'">
+            <span>
+              {{  difficultyText[record.difficulty || 0 ] }}
             </span>
           </template>
         </template>

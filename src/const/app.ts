@@ -3,6 +3,7 @@ export enum MENU_KEYS {
   PROBLEM,
   CONTEST,
   STATUS,
+  ADMIN,
 }
 
 export interface IResponse {
@@ -24,4 +25,10 @@ export enum CODE_LANGUAGES {
 export interface GlobalError {
   code: number;
   message: string;
+}
+
+export enum PROBLEM_DIFFICULTY {
+  EASY,
+  MEDUIM,
+  HARD,
 }

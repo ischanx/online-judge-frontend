@@ -35,6 +35,24 @@ export const getContestSubmissionById = async (data: any) => {
   return await http.get('/contest/check', data);
 };
 
-export const getContestSubmissionList = async ({ problemId, contestId }: { problemId: number; contestId: number }) => {
-  return await http.post('/contest/listUserSubmission', { problemId, contestId });
+export const getContestSubmissionList = async ({
+  problemNumber,
+  contestId,
+}: {
+  problemNumber: number;
+  contestId: number;
+}) => {
+  return await http.post('/contest/listUserSubmission', { problemNumber, contestId });
+};
+
+export const contestAdd = async (data: any) => {
+  return await http.post('/contest/add', data);
+};
+
+export const contestUpdate = async (id: number, data: any) => {
+  return await http.post('/contest/update', { id, data });
+};
+
+export const contestDelete = async (contestId: number) => {
+  return await http.post('/contest/delete', { id: contestId });
 };

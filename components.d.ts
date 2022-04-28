@@ -5,34 +5,12 @@
 declare module 'vue' {
   export interface GlobalComponents {
     404: typeof import('./src/views/404/index.vue')['default']
-    AAvatar: typeof import('ant-design-vue/es')['Avatar']
-    AButton: typeof import('ant-design-vue/es')['Button']
-    ACol: typeof import('ant-design-vue/es')['Col']
-    ADivider: typeof import('ant-design-vue/es')['Divider'];
-    ADropdown: typeof import('ant-design-vue/es')['Dropdown']
-    AForm: typeof import('ant-design-vue/es')['Form']
-    AFormItem: typeof import('ant-design-vue/es')['FormItem']
-    AInput: typeof import('ant-design-vue/es')['Input']
-    AInputGroup: typeof import('ant-design-vue/es')['InputGroup']
-    AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
-    ALayout: typeof import('ant-design-vue/es')['Layout']
-    ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent'];
-    ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter'];
-    ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader']
-    AMenu: typeof import('ant-design-vue/es')['Menu']
-    AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
+    AdminLayout: typeof import('./src/views/Layout/AdminLayout.vue')['default']
     App: typeof import('./src/App.vue')['default']
-    AProgress: typeof import('ant-design-vue/es')['Progress']
-    ARow: typeof import('ant-design-vue/es')['Row']
-    ASelect: typeof import('ant-design-vue/es')['Select'];
-    ASelectOption: typeof import('ant-design-vue/es')['SelectOption'];
-    ATable: typeof import('ant-design-vue/es')['Table']
-    ATabPane: typeof import('ant-design-vue/es')['TabPane']
-    ATabs: typeof import('ant-design-vue/es')['Tabs']
-    ATag: typeof import('ant-design-vue/es')['Tag']
     BaseLayout: typeof import('./src/views/Layout/BaseLayout.vue')['default']
     Contest: typeof import('./src/views/Contest/index.vue')['default']
     ContestList: typeof import('./src/views/ContestList/index.vue')['default']
+    Detail: typeof import('./src/views/Admin/Contest/Detail/index.vue')['default']
     ForgetPassword: typeof import('./src/views/ForgetPassword/index.vue')['default']
     Home: typeof import('./src/views/Home/index.vue')['default']
     Login: typeof import('./src/views/Login/Login.vue')['default']
@@ -42,10 +20,11 @@ declare module 'vue' {
     Problem: typeof import('./src/views/Problem/index.vue')['default']
     ProblemList: typeof import('./src/views/ProblemList/index.vue')['default']
     Register: typeof import('./src/views/Register/index.vue')['default']
+    Statistics: typeof import('./src/views/Admin/Statistics/index.vue')['default']
     Status: typeof import('./src/views/Status/index.vue')['default']
     SubmitList: typeof import('./src/components/SubmitList/index.vue')['default']
     SubmitResult: typeof import('./src/components/SubmitResult/index.vue')['default']
-    WithFooter: typeof import('./src/views/Layout/BaseLayout.vue')['default'];
+    User: typeof import('./src/views/Admin/User/index.vue')['default']
   }
 }
 
