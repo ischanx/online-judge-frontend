@@ -9,15 +9,15 @@ import { parseTime, parseTimestamp, parseRemainTime } from '@/utils/parser';
  * 实时更新当前时间
  */
 const nowTime = ref(0);
-let timer:number;
+let timer: number;
 const updateTime = () => {
   nowTime.value = Date.now();
-  timer = window.setTimeout(updateTime,1000);
+  timer = window.setTimeout(updateTime, 1000);
 };
-onMounted(()=>{
+onMounted(() => {
   updateTime();
 });
-onBeforeUnmount(()=>{
+onBeforeUnmount(() => {
   clearTimeout(timer);
 });
 
@@ -42,7 +42,7 @@ const progress = computed(() => {
   const done = now - beginTime;
   if (now > endTime) return 100;
   else if (now < beginTime) return 0;
-  else return Math.floor(100 * done / length);
+  else return Math.floor((100 * done) / length);
 });
 
 const fetchRank = async () => {
@@ -52,13 +52,25 @@ const fetchRank = async () => {
       return a.totalTime - b.totalTime;
     } else return b.totalSolved - a.totalSolved;
   });
-  // res.length && res[0].list.forEach((item,index) => {
-  //   columns2[5].children.push( {
-  //     title: 'Door No.',
-  //     dataIndex: String(index),
-  //     key: 'number',
-  //   });
-  // });
+  let problemNum = 0;
+  res.forEach((item) => {
+    const t = {};
+    problemNum = Math.max(item.list.length, problemNum);
+    item.list.forEach((val: any, index: any) => {
+      t[index] = val;
+    });
+    item.list = t;
+  });
+  console.log(res);
+  for (let i = 0; i < problemNum; i++) {
+    columns2[columns2.length - 1].children.push({
+      title: String(i + 1),
+      key: 'problemData',
+      dataIndex: String(i),
+      width: 80,
+      align: 'center',
+    });
+  }
 
   rankList.value = res;
 };
@@ -69,11 +81,11 @@ const columns = [
     dataIndex: 'id',
     key: 'id',
   },
-  {
-    title: '分数',
-    dataIndex: 'score',
-    key: 'score',
-  },
+  // {
+  //   title: '分数',
+  //   dataIndex: 'score',
+  //   key: 'score',
+  // },
 ];
 
 const jumpToProblemPage = (problemNumber: number) => {
@@ -91,37 +103,47 @@ const handleTitleClick = (e: PointerEvent, item: Problem) => {
 
 const columns2 = reactive([
   {
-    title: '用户',
+    title: '排名',
+    key: 'rank',
+    align: 'center',
+  },
+  {
+    title: '名称',
     dataIndex: 'userId',
     key: 'userId',
+    align: 'center',
   },
   {
-    title: '时间',
+    title: '用时',
     dataIndex: 'totalTime',
     key: 'totalTime',
+    align: 'center',
   },
-  {
-    title: '分数',
-    dataIndex: 'totalScore',
-    key: 'totalScore',
-  },
+  // {
+  //   title: '分数',
+  //   dataIndex: 'totalScore',
+  //   key: 'totalScore',
+  //   align: 'center'
+  // },
   {
     title: '已解决',
     dataIndex: 'totalSolved',
     key: 'totalSolved',
+    align: 'center',
   },
   {
-    title: '错误次数',
+    title: '错误',
     dataIndex: 'totalWrong',
     key: 'totalWrong',
+    align: 'center',
   },
-  // {
-  //   title: '题目',
-  //   children:[],
-  // },
+  {
+    title: '题目',
+    dataIndex: 'list',
+    children: [],
+  },
 ]);
 const activeKey = ref('1');
-
 </script>
 
 <template>
@@ -134,8 +156,8 @@ const activeKey = ref('1');
         <div class="time">
           <span>{{ parseTimestamp(contest.beginTime) }}</span>
           <span class="status" :style="{ color: parseRemainTime(contest.beginTime, contest.endTime).color }">
-            {{parseRemainTime(contest.beginTime, contest.endTime).text }}
-            {{ contest.endTime - nowTime > 0 ? (': 剩余' + parseTime(contest.endTime - nowTime)) : '' }}
+            {{ parseRemainTime(contest.beginTime, contest.endTime).text }}
+            {{ contest.endTime - nowTime > 0 ? ': 剩余' + parseTime(contest.endTime - nowTime) : '' }}
           </span>
           <span>{{ parseTimestamp(contest.endTime) }}</span>
         </div>
@@ -144,35 +166,57 @@ const activeKey = ref('1');
       <a-tabs v-model:activeKey="activeKey" type="card">
         <a-tab-pane key="1" tab="题目列表">
           <a-table :columns="columns" :data-source="contest.problemList">
-            <template #bodyCell="{ column, record }">
+            <template #bodyCell="{ column, record, index }">
               <template v-if="column.key === 'id'">
                 <a-button type="link" @click="(e) => handleTitleClick(e, record)">
-                  {{ record.title }}
+                  {{ index + 1 }}. {{ record.title }}
                 </a-button>
               </template>
-              <template v-else-if="column.key === 'score'">
-                <span>
-                  {{ record.score }}
-                </span>
-              </template>
+              <!--              <template v-else-if="column.key === 'score'">-->
+              <!--                <span>-->
+              <!--                  {{ record.score }}-->
+              <!--                </span>-->
+              <!--              </template>-->
             </template>
           </a-table>
         </a-tab-pane>
         <a-tab-pane key="2" tab="榜单">
-          <a-table :columns="columns2" :data-source="rankList">
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.key === 'userId'">
-                <span>{{ record.userId }}</span>
+          <a-table :columns="columns2" :data-source="rankList" bordered row-class-name="rank-row">
+            <template #bodyCell="{ column, record, index }">
+              <template v-if="column.key === 'rank'">
+                <span>{{ index + 1 }}</span>
+              </template>
+              <template v-else-if="column.key === 'userId'">
+                <span>{{ record.username || '某位用户' }}</span>
               </template>
               <template v-else-if="column.key === 'totalTime'">
                 <span>
-                  {{ record.totalTime / 1000 + '秒' }}
+                  {{ parseTime(record.totalTime) }}
                 </span>
               </template>
               <template v-else-if="column.key === 'number'">
                 <span>
                   {{ column }}
                 </span>
+              </template>
+              <template v-else-if="column.key === 'problemData'">
+                <div
+                  :class="[
+                    'rank-problem',
+                    record.list[column.dataIndex].pass
+                      ? 'rank-problem-success'
+                      : record.list[column.dataIndex].wrongCount
+                        ? 'rank-problem-fail'
+                        : '',
+                  ]"
+                >
+                  <span v-if="record.list[column.dataIndex].pass" class="time">
+                    {{ parseTime(record.list[column.dataIndex].solvedTime) }}
+                  </span>
+                  <span v-if="record.list[column.dataIndex].wrongCount" class="wrong">
+                    (-{{ record.list[column.dataIndex].wrongCount }})
+                  </span>
+                </div>
               </template>
             </template>
           </a-table>
@@ -205,5 +249,34 @@ const activeKey = ref('1');
       font-weight: 600;
     }
   }
+}
+
+.rank-problem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  height: 100%;
+  .wrong {
+    font-size: 10px;
+  }
+  .time {
+    font-size: 12px;
+    font-weight: 700;
+  }
+}
+.rank-problem-success {
+  background-color: #06a11d;
+  color: white;
+}
+.rank-problem-fail {
+  background-color: #ffdddd;
+}
+</style>
+<style>
+.rank-row .ant-table-cell {
+  padding: 0 !important;
+  height: 60px;
 }
 </style>
