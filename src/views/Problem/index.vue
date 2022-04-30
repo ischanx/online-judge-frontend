@@ -11,7 +11,7 @@ import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import { getProblemById, getSubmissionById, getSubmissionList, submit } from '@/api/problem';
-import { CODE_LANGUAGES, PROBLEM_TABS_KEYS } from '@/const/app';
+import { CODE_LANGUAGES, langToText, PROBLEM_TABS_KEYS } from '@/const/app';
 import SubmitList from '@/components/SubmitList/index.vue';
 import SubmitResult from '@/components/SubmitResult/index.vue';
 import {
@@ -122,7 +122,12 @@ const fetchProblem = async () => {
 const leftTabsKey = ref(PROBLEM_TABS_KEYS.SUBMISSION);
 const codeLanguage = ref(CODE_LANGUAGES.CPP);
 const handleLanguageChange = (language: string) => {
-  const model = monaco.editor.createModel(editor.getValue(), language);
+  const langToText: any = {
+    c: 'c',
+    cpp: 'cpp',
+    jsNode: 'javascript',
+  };
+  const model = monaco.editor.createModel(editor.getValue(), langToText[language]);
   editor.setModel(model);
 };
 
@@ -248,8 +253,9 @@ const columns = [
         <div class="problem-page-right">
           <div class="tools-top">
             <a-select v-model:value="codeLanguage" size="small" style="width: 120px" @change="handleLanguageChange">
-              <!--          <a-select-option :value="CODE_LANGUAGES.C">C</a-select-option>-->
+              <a-select-option :value="CODE_LANGUAGES.C">C</a-select-option>
               <a-select-option :value="CODE_LANGUAGES.CPP">C++</a-select-option>
+              <a-select-option :value="CODE_LANGUAGES.JS_NODE">Javascript Node</a-select-option>
             </a-select>
           </div>
 

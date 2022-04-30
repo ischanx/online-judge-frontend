@@ -20,6 +20,7 @@ export enum PROBLEM_TABS_KEYS {
 export enum CODE_LANGUAGES {
   C = 'c',
   CPP = 'cpp',
+  JS_NODE = 'jsNode',
 }
 
 export interface GlobalError {
