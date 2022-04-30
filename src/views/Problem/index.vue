@@ -28,6 +28,7 @@ import Storage from '@/utils/storage';
  *  Markdown-it做转换
  */
 import MarkdownIt from 'markdown-it';
+import { parseTime }from '@/utils/parser';
 const problemContent = ref('');
 const setProblemContent = (origin: string) => {
   const md = new MarkdownIt();
@@ -231,7 +232,8 @@ const columns = [
         <div class="problem-page-left">
           <a-tabs v-model:activeKey="leftTabsKey" centered style="height: 100%">
             <a-tab-pane :key="PROBLEM_TABS_KEYS.CONTENT" tab="题目描述" class="container">
-              <div class="title">{{ problem.id + '. ' + problem.title }}</div>
+              <div class="title">#{{ problem.id + '. ' + problem.title }}</div>
+              <div class="limit">时间限制：{{ parseTime(problem.executeTime) }} 空间限制：{{ problem.executeMemory }} kb</div>
               <a-divider></a-divider>
               <div class="content" v-html="problemContent"></div>
             </a-tab-pane>
@@ -283,6 +285,11 @@ const columns = [
       text-align: center;
       font-size: 16px;
       font-weight: 700;
+    }
+    .limit{
+      margin-top: 8px;
+      font-size: 12px;
+      text-align: center;
     }
     .content {
       font-size: 13px;
