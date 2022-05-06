@@ -100,7 +100,7 @@ const cssStr = (error:number, total: number)=>{
               class="submitStatus"
               :style="cssStr(record.errorSubmit, record.totalSubmit)"
             >
-              {{ record.errorSubmit || 0 }} / {{ record.totalSubmit || 0 }}
+              {{ (record.totalSubmit - record.errorSubmit) || 0 }} / {{ record.totalSubmit || 0 }}
             </div>
           </template>
         </template>
