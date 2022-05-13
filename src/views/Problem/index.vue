@@ -133,30 +133,38 @@ const handleLanguageChange = (language: string) => {
 
 const submitLoading = ref(false);
 const handleCodeSubmit = async () => {
-  submitLoading.value = true;
-  const code = editor.getValue();
-  const lang = codeLanguage.value;
-  if (code === '' || !problemId.value) return;
-  let res: any = null;
-  if (problemNumber.value) {
-    res = await submitContestProblem({
-      code,
-      problemId: problemId.value,
-      lang,
-      problemNumber: problemNumber.value,
-      contestId: contestId.value,
-    });
-  } else
-    res = await submit({
-      code,
-      problemId: problemId.value,
-      lang,
-    });
-  if (res.submissionId) {
-    setTimeout(() => {
-      fetchSubmitResult(res.submissionId);
-    }, 0);
+  try{
+    submitLoading.value = true;
+    const code = editor.getValue();
+    const lang = codeLanguage.value;
+    if (code === '' || !problemId.value) return;
+    let res: any = null;
+    if (problemNumber.value) {
+      res = await submitContestProblem({
+        code,
+        problemId: problemId.value,
+        lang,
+        problemNumber: problemNumber.value,
+        contestId: contestId.value,
+      });
+    } else{
+      res = await submit({
+        code,
+        problemId: problemId.value,
+        lang,
+      });
+    }
+
+    if (res.submissionId) {
+      setTimeout(() => {
+        fetchSubmitResult(res.submissionId);
+      }, 0);
+    }
+  }catch (e) {
+    submitLoading.value = false;
+    throw e;
   }
+
 };
 
 const submitList = reactive([]);
@@ -183,7 +191,7 @@ const fetchSubmitResult = async (id: string) => {
     res = await getContestSubmissionById({ id });
   } else res = (await getSubmissionById({ id })) as any;
 
-  if (res.status === 'success') {
+  if (res.status !== 'pending') {
     submitRes.value = reactive(res.result);
     console.log(res.result);
     leftTabsKey.value = PROBLEM_TABS_KEYS.SUBMISSION;
@@ -252,7 +260,7 @@ const columns = [
       <Pane :size="70" style="height: 100%; min-width: 30%">
         <div class="problem-page-right">
           <div class="tools-top">
-            <a-select v-model:value="codeLanguage" size="small" style="width: 120px" @change="handleLanguageChange">
+            <a-select v-model:value="codeLanguage" size="small" style="width: 150px" @change="handleLanguageChange">
               <a-select-option :value="CODE_LANGUAGES.C">C</a-select-option>
               <a-select-option :value="CODE_LANGUAGES.CPP">C++</a-select-option>
               <a-select-option :value="CODE_LANGUAGES.JS_NODE">Javascript Node</a-select-option>

@@ -10,11 +10,13 @@ defineProps({
       <span class="title">执行结果：</span>
       <a-tag :color="result.pass ? 'green' : 'red'">{{ result.error || result.message }}</a-tag>
     </div>
-    <div>
+    <div v-if="result.totalCount">
       <span class="title">通过用例：</span>
-      <span>{{ result.totalCount ?(result.totalCorrect + '/' + result.totalCount)  : '' }}</span>
+      <span>{{ result.totalCount ? result.totalCorrect + '/' + result.totalCount : '' }}</span>
       <a-progress
-        :percent="Number(result.totalCount || 0)?(100 * Number(result.totalCorrect || 0)) / Number(result.totalCount || 0) : 0"
+        :percent="
+          Number(result.totalCount || 0) ? (100 * Number(result.totalCorrect || 0)) / Number(result.totalCount || 0) : 0
+        "
         size="small"
         style="width: 150px"
       />
