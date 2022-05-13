@@ -105,6 +105,11 @@ const routes = [
         name: 'AdminStatistics',
         component: () => import('@/views/Admin/Statistics/index.vue'),
       },
+      {
+        path: 'judge',
+        name: 'AdminJudge',
+        component: () => import('@/views/Admin/Judge/index.vue'),
+      },
     ],
   },
   { path: '/:pathMatch(.*)*', component: () => import('@/views/404/index.vue') },

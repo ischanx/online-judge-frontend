@@ -12,7 +12,7 @@
       <a-menu-item key="AdminProblem">题目管理</a-menu-item>
       <a-menu-item key="AdminContest">比赛管理</a-menu-item>
       <a-menu-item key="AdminStatistics">数据统计</a-menu-item>
-      <!--      <a-menu-item key="AdminSystemSetting">全局设置</a-menu-item>-->
+      <a-menu-item key="AdminJudge">评测机设置</a-menu-item>
       <!--      <a-menu-item key="4">文件管理</a-menu-item>-->
     </a-menu>
     <router-view style="flex-grow:1;margin: 16px"/>
