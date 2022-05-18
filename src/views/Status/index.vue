@@ -25,6 +25,9 @@ const columns = [
     dataIndex: 'problemId',
     key: 'problemId',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a?.problemId || 0) - (b?.problemId || 0),
+    },
   },
   {
     title: '提交结果',
@@ -37,12 +40,18 @@ const columns = [
     dataIndex: 'problemId',
     key: 'time',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a?.result?.time || 0) - (b?.result?.time || 0),
+    },
   },
   {
     title: '内存',
     dataIndex: 'problemId',
     key: 'memory',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a?.result?.memory || 0) - (b?.result?.memory || 0),
+    },
   },
   {
     title: '语言',
@@ -55,6 +64,9 @@ const columns = [
     dataIndex: 'createTime',
     key: 'createTime',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a.createTime || 0) - (b.createTime || 0),
+    },
   },
 ];
 </script>

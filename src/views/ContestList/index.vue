@@ -19,17 +19,26 @@ const columns = [
     title: '比赛',
     dataIndex: 'id',
     key: 'id',
+    sorter: {
+      compare: (a:any, b:any) => (a.id || 0) - (b.id || 0),
+    },
   },
 
   {
     title: '开始时间',
     dataIndex: 'beginTime',
     key: 'beginTime',
+    sorter: {
+      compare: (a:any, b:any) => (a.beginTime || 0) - (b.beginTime || 0),
+    },
   },
   {
     title: '结束时间',
     dataIndex: 'endTime',
     key: 'endTime',
+    sorter: {
+      compare: (a:any, b:any) => (a.endTime || 0) - (b.endTime || 0),
+    },
   },
   {
     title: '状态',

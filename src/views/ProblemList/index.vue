@@ -17,30 +17,45 @@ const columns = [
     title: '题目',
     dataIndex: 'id',
     key: 'id',
+    sorter: {
+      compare: (a:any, b:any) => (a.id || 0) - (b.id || 0),
+    },
   },
   {
     title: '难度',
     dataIndex: 'difficulty',
     key: 'difficulty',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a.difficulty || 0) - (b.difficulty || 0),
+    },
   },
   {
     title: '提交',
     dataIndex: 'totalSubmit',
     key: 'submitStatus',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a.totalSubmit || 0) - (b.totalSubmit || 0),
+    },
   },
   {
     title: '创建时间',
     dataIndex: 'createTime',
     key: 'createTime',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a.createTime || 0) - (b.createTime || 0),
+    },
   },
   {
     title: '更新时间',
     dataIndex: 'updateTime',
     key: 'updateTime',
     align: 'center',
+    sorter: {
+      compare: (a:any, b:any) => (a.updateTime || 0) - (b.updateTime || 0),
+    },
   },
 ];
 const jumpToProblemPage = (problemId: number) => {
