@@ -44,12 +44,7 @@ const columns = [
   },
 ];
 const jumpToProblemPage = (problemId: number) => {
-  router.push({
-    name: 'Problem',
-    params: {
-      problemId,
-    },
-  });
+  window.open(`/problem/${problemId}`, '_blank');
 };
 const handleTitleClick = (e: PointerEvent, item: Problem) => {
   jumpToProblemPage(item.id);

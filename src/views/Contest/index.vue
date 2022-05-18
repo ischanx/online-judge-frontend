@@ -89,13 +89,7 @@ const columns = [
 ];
 
 const jumpToProblemPage = (problemNumber: number) => {
-  router.push({
-    name: 'ContestProblem',
-    params: {
-      problemNumber,
-      contestId: contestId.value,
-    },
-  });
+  window.open(`/contest/${contestId.value}/${problemNumber}`, '_blank');
 };
 const handleTitleClick = (e: PointerEvent, item: Problem) => {
   jumpToProblemPage(contest.value.problemList.findIndex((e) => e.title === item.title) + 1);
