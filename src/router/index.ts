@@ -28,6 +28,17 @@ const routes = [
     component: () => import('@/views/ForgetPassword/index.vue'),
   },
   {
+    path: '/profile',
+    component: () => import('@/views/Layout/BaseLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'PersonPage',
+        component: () => import('@/views/PersonPage/index.vue'),
+      },
+    ],
+  },
+  {
     path: '/problem/:problemId(\\d+)',
     name: 'Problem',
     component: () => import('@/views/Problem/index.vue'),

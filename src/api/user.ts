@@ -41,3 +41,7 @@ export const getUserList = async () => {
 export const deleteUser = async (email: string) => {
   return (await http.post('/user/delete', { email })) as any;
 };
+
+export const getProfile = async (username: string) => {
+  return (await http.get('/user/profile', { username })) as any;
+};

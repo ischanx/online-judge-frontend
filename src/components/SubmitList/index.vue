@@ -13,9 +13,13 @@ const handleSubmissionClick = (submissionId: string) => {
   console.log(submissionId);
 };
 
-const handleUserClick = (uid: string) => {
-  // todo 跳转到个人详情页面
-  console.log(uid);
+const handleUserClick = (username: string) => {
+  router.push({
+    name: 'PersonPage',
+    params:{
+      username
+    }
+  });
 };
 
 const handleProblemClick = (problemId: number) => {
@@ -30,7 +34,7 @@ const handleProblemClick = (problemId: number) => {
     <a-table :columns="columns" :data-source="list" class="submit-list">
       <template #bodyCell="{ text, record, column }">
         <template v-if="column.key === 'userId'">
-          <a @click="handleUserClick(record.uid)">
+          <a @click="handleUserClick(record.username)">
             {{ record.username || '不知名的用户' }}
           </a>
         </template>

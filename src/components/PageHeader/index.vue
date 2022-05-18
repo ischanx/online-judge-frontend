@@ -27,7 +27,12 @@ const handleUserLogout = () => {
 
 };
 const globalStore = useGlobalStore();
-console.log(globalStore.token);
+
+const handleProfileClick = () => {
+  router.push({
+    name: 'PersonPage',
+  });
+};
 </script>
 
 <template>
@@ -54,12 +59,12 @@ console.log(globalStore.token);
         </a-avatar>
         <template #overlay>
           <a-menu>
-            <a-menu-item>
+            <a-menu-item @click="handleProfileClick">
               个人主页
             </a-menu-item>
-            <a-menu-item>
-              账号设置
-            </a-menu-item>
+            <!--            <a-menu-item>-->
+            <!--              账号设置-->
+            <!--            </a-menu-item>-->
             <a-menu-item @click="handleUserLogout">
               退出账号
             </a-menu-item>

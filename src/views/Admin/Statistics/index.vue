@@ -174,9 +174,11 @@ const getProblemSubmitDay = async (id: number) => {
     for (let i = 6; i >= 0; i--) {
       if (item.createTime > timeArr[i]) {
         dataArr[i]++;
-        if (item.result.error) {
-          errArr[i]++;
-        } else acArr[i]++;
+        if(item.result){
+          if (item.result.error) {
+            errArr[i]++;
+          } else acArr[i]++;
+        }
         break;
       }
     }
