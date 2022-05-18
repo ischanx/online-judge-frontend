@@ -13,7 +13,7 @@
         </p>
         <p>主机名：{{ item.hostname }}</p>
         <p>CPU：{{ item.cpu_model }} * {{ item.cpu_core }}</p>
-        <p>内存：{{ (item.memory_total / 8 / 1024 / 1024).toFixed(3) }} MB</p>
+        <p>内存：{{ (item.memory_total / 1024 / 1024).toFixed(3) }} MB</p>
         <div class="btn-groups">
           <a-button :type="!item.active ? 'primary' : ''" size="small" @click="changeStatus(item)">
             {{ !item.active ? '开始分配任务' : '停止分配任务' }}
