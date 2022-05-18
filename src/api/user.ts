@@ -49,3 +49,7 @@ export const getProfile = async (username: string) => {
 export const getUserRank = async () => {
   return (await http.get('/user/rank')) as any;
 };
+
+export const resetPassword = async (email: string) => {
+  return (await http.post('/user/resetPassword', { email })) as any;
+};
