@@ -50,6 +50,17 @@ const routes = [
     ],
   },
   {
+    path: '/submission',
+    component: () => import('@/views/Layout/BaseLayout.vue'),
+    children: [
+      {
+        path: ':id',
+        name: 'Submission',
+        component: () => import('@/views/SubmissionDetail/index.vue'),
+      },
+    ],
+  },
+  {
     path: '/problem/:problemId(\\d+)',
     name: 'Problem',
     component: () => import('@/views/Problem/index.vue'),

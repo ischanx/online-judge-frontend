@@ -9,8 +9,8 @@ defineProps({
 
 
 const handleSubmissionClick = (submissionId: string) => {
-  // todo 访问提交详情页面
-  console.log(submissionId);
+  if(!router.currentRoute.value.path.includes('contest'))
+    window.open(`/submission/${submissionId}`, '__blank');
 };
 
 const handleUserClick = (username: string) => {
