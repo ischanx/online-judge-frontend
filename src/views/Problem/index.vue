@@ -79,7 +79,7 @@ onMounted(() => {
   // @ts-ignore
   editor = monaco.editor.create(document.getElementById('container'), {
     // eslint-disable-next-line max-len
-    value: Storage.getLocalItem(`code_${contestId.value}_${problemId.value}`) || '// code here',
+    value: Storage.getLocalItem(`code_${contestId.value}_${problemId.value}_${codeLanguage.value}}`) || '// code here',
     language: 'cpp',
     theme: 'vs-dark',
     lineNumbers: 'on',
@@ -97,7 +97,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  Storage.setLocalItem(`code_${contestId.value}_${problemId.value}`, editor.getValue());
+  Storage.setLocalItem(`code_${contestId.value}_${problemId.value}_${codeLanguage.value}`, editor.getValue());
   editor.dispose();
 });
 const problem = reactive({});
