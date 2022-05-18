@@ -48,6 +48,7 @@ declare module 'vue' {
     PersonPage: typeof import('./src/views/PersonPage/index.vue')['default']
     Problem: typeof import('./src/views/Problem/index.vue')['default']
     ProblemList: typeof import('./src/views/ProblemList/index.vue')['default']
+    Rank: typeof import('./src/views/Rank/index.vue')['default']
     Register: typeof import('./src/views/Register/index.vue')['default']
     Statistics: typeof import('./src/views/Admin/Statistics/index.vue')['default']
     Status: typeof import('./src/views/Status/index.vue')['default']

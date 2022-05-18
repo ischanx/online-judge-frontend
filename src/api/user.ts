@@ -45,3 +45,7 @@ export const deleteUser = async (email: string) => {
 export const getProfile = async (username: string) => {
   return (await http.get('/user/profile', { username })) as any;
 };
+
+export const getUserRank = async () => {
+  return (await http.get('/user/rank')) as any;
+};

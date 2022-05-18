@@ -39,6 +39,17 @@ const routes = [
     ],
   },
   {
+    path: '/user-rank',
+    component: () => import('@/views/Layout/BaseLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'UserRank',
+        component: () => import('@/views/Rank/index.vue'),
+      },
+    ],
+  },
+  {
     path: '/problem/:problemId(\\d+)',
     name: 'Problem',
     component: () => import('@/views/Problem/index.vue'),

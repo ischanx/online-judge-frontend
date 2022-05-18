@@ -17,7 +17,7 @@ onMounted(() => {
 });
 
 const handleMenuClick = ({ key }: { key: number }) => {
-  const map = ['ProblemList', 'ContestList', 'Status', 'AdminUser'];
+  const map = ['ProblemList', 'ContestList', 'Status', 'UserRank', 'AdminUser'];
   router.push({ name: map[key] });
 };
 const handleUserLogout = () => {
@@ -43,6 +43,7 @@ const handleProfileClick = () => {
         <a-menu-item :key="MENU_KEYS.PROBLEM">题库</a-menu-item>
         <a-menu-item :key="MENU_KEYS.CONTEST">比赛</a-menu-item>
         <a-menu-item :key="MENU_KEYS.STATUS">状态</a-menu-item>
+        <a-menu-item :key="MENU_KEYS.RANK">排名</a-menu-item>
         <a-menu-item v-if="globalStore.user.role" :key="MENU_KEYS.ADMIN">管理</a-menu-item>
       </a-menu>
     </div>
