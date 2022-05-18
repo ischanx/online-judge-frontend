@@ -66,7 +66,7 @@ const handleTitleClick = (e: PointerEvent, item: Problem) => {
 };
 
 
-const cssStr = (error:number, total: number)=>{
+const cssStr = (error = 0, total: number)=>{
   const percent = 100* (total - error)/total || 1; // 等于0时随便传一个非零值，否则样式不展示
   return 'background: linear-gradient(\n' +
       '                  to right,\n' +
@@ -106,11 +106,11 @@ const cssStr = (error:number, total: number)=>{
           </template>
           <template v-else-if="column.key === 'submitStatus'">
             <div
-              v-show="record.totalSubmit"
+              v-if="record.totalSubmit"
               class="submitStatus"
               :style="cssStr(record.errorSubmit, record.totalSubmit)"
             >
-              {{ (record.totalSubmit - record.errorSubmit) || 0 }} / {{ record.totalSubmit || 0 }}
+              {{ (record.totalSubmit - (record.errorSubmit || 0)) }} / {{ record.totalSubmit || 0 }}
             </div>
           </template>
         </template>
